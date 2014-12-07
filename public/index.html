@@ -25,22 +25,32 @@
 
 		<div id="expense-form" class="row">
 			<div class="col-xs-12 well">
-				<form>
+				<form class="form-inline" role="form">
 					<div class="form-group">
-						<label for="">Category</label>
-						<input type="text" class="form-control" ng-model="formData.category">
+						<label class="sr-only" for="category">Category</label>
+						<!-- <input  type="text" class="form-control"  placeholder="Category"> -->
+						<select id="category" class="form-control" ng-model="formData.category">
+							<option>Food</option>
+							<option>Travel</option>
+							<option>Recharge</option>
+							<option>Books</option>
+							<option>Electronics</option>
+							<option>Supermarket</option>
+							<option>Entertainment</option>
+							<option>Others</option>
+						</select>
 					</div>
 					<div class="form-group">
-						<label for="">Amount</label>
-						<input type="text" class="form-control" ng-model="formData.amount">
+						<label class="sr-only" for="amount">Amount</label>
+						<input id="amount" type="text" class="form-control" ng-model="formData.amount" placeholder="Amount">
 					</div>
 					<div class="form-group">
-						<label for="">Date</label>
-						<input type="text" class="form-control" ng-model="formData.date">
+						<label class="sr-only" for="date">Date</label>
+						<input id="date" type="datetime" class="form-control" ng-model="formData.date" placeholder="Date">
 					</div>
 					<div class="form-group">
-						<label for="">Remark</label>
-						<input type="text" class="form-control" ng-model="formData.remark">
+						<label class="sr-only" for="">Remark</label>
+						<input id="remark" type="text" class="form-control" ng-model="formData.remark" placeholder="Remarks">
 					</div>
 					<button type="submit" class="btn btn-primary" ng-click="createExpense()">Add</button>
 				</form>
@@ -78,6 +88,18 @@
 			$scope.deleteExpense = function(id) {
 				$http.delete('/api/expenses/' + id)
 					.success(function(data) {
+						$scope.expenses = data;
+						console.log(data);
+					})
+					.error(function(data) {
+						console.log('Error: ' + data);
+					});
+			};
+			// update
+			$scope.updateExpense = function(id) {
+				$http.put('/api/expenses/' + id, $scope.formData)
+					.success(function(data) {
+						$scope.formData = {};
 						$scope.expenses = data;
 						console.log(data);
 					})
