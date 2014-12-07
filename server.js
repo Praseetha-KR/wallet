@@ -22,3 +22,8 @@ process.on("SIGINT", function() {
         process.exit(0);
     });
 });
+
+app.get('*', function(req, res) {
+    res.sendFile('index.html', { root: './public' });
+    // res.sendFile('/public/index.html');
+});

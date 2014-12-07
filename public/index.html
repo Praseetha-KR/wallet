@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html ng-app="expenseApp">
+<head>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+</head>
+
+<body ng-controller="mainController">
+	<div class="container">
+		<div class="text-center">
+			<h3>Your Expenses <span class="label label-info">{{ expenses.length }}</span></h3>
+		</div>
+
+		<div id="expenses-list" class="row">
+			<div class="col-sm-12 well">
+				<div class="checkbox" ng-repeat="expense in expenses">
+					<li>
+						{{ expense.category }}, {{ expense.amount }}, {{ expense.date }}, {{ expense.remark }}
+					</li>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		var expenseApp = angular.module('expenseApp', []);
+
+		function mainController($scope, $http) {
+			$scope.formData = {};
+
+			// on load
+			$http.get('/api/expenses')
+				.success(function(data) {
+					$scope.expenses = data;
+					console.log(data);
+				})
+				.error(function(data) {
+					console.log('Error: ' + data);
+				});
+		}
+	</script>
+</body>
+</html>
